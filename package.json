@@ -6,7 +6,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iad1tya/lossless-extension.git"
+    "url": "https://github.com/EchoMusicApp/lossless-extension.git"
   },
   "engines": {
     "node": ">=20"

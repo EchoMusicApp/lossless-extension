@@ -337,7 +337,7 @@ footer {
       <div class="footer-grid">
         <div class="footer-col">
           <h3>Open Source</h3>
-          <p>Fully open source under GPL-3.0. Source available on <a href="https://github.com/iad1tya/lossless-extension" target="_blank" rel="noopener">GitHub</a>. Inspect, fork, and self-host freely.</p>
+          <p>Fully open source under GPL-3.0. Source available on <a href="https://github.com/EchoMusicApp/lossless-extension" target="_blank" rel="noopener">GitHub</a>. Inspect, fork, and self-host freely.</p>
         </div>
         <div class="footer-col">
           <h3>How It Works</h3>

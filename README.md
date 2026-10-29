@@ -10,23 +10,23 @@ A self-hosted lossless music addon for Echo Music — powered by six upstream pr
 
 ### Requirements
 
-- A [Vercel account](https://vercel.com/signup) *(free tier works)*
+- A [Vercel account](https://vercel.com/signup) _(free tier works)_
 - A [GitHub account](https://github.com/signup)
 
 ---
 
 ## Step 1 — Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/iad1tya/lossless-extension&project-name=lossless-extension&repository-name=lossless-extension&env=QOBUZ_ID_SECRET&envDescription=A%20long%20random%20secret%20used%20to%20sign%20track%20IDs.%20Generate%20one%20with%20openssl%20rand%20-hex%2032&envLink=https://github.com/iad1tya/lossless-extension%23provider-configuration)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/EchoMusicApp/lossless-extension&project-name=lossless-extension&repository-name=lossless-extension&env=QOBUZ_ID_SECRET&envDescription=A%20long%20random%20secret%20used%20to%20sign%20track%20IDs.%20Generate%20one%20with%20openssl%20rand%20-hex%2032&envLink=https://github.com/EchoMusicApp/lossless-extension%23provider-configuration)
 
 1. Click the **Deploy with Vercel** button above.
 2. Sign in to Vercel and connect your GitHub account when prompted.
 3. Vercel will fork this repository into your account automatically.
 4. Set the required environment variable when asked:
 
-   | Variable | Required | Description |
-   | :--- | :---: | :--- |
-   | `QOBUZ_ID_SECRET` | ✅ | A long random secret used to sign track IDs. Generate one with `openssl rand -hex 32`. |
+   | Variable          | Required | Description                                                                            |
+   | :---------------- | :------: | :------------------------------------------------------------------------------------- |
+   | `QOBUZ_ID_SECRET` |    ✅    | A long random secret used to sign track IDs. Generate one with `openssl rand -hex 32`. |
 
    > All other variables are optional — defaults are built in. See [Provider Configuration](#provider-configuration) for the full list.
 
@@ -80,15 +80,15 @@ INSTABLE_BASE_URL=https://instable.arcod.xyz
 
 Each provider is also accessible via its own isolated route prefix — useful for testing a specific source directly.
 
-| Prefix | Provider | Quality |
-| :---: | :--- | :--- |
-| *(root)* | **Multi** — races all six providers | FLAC / best available |
-| `/a` | Qobuz-DL | Lossless |
-| `/b` | LastBabe | Lossless |
-| `/c` | Monochrome | FLAC |
-| `/d` | Deezer | High / Low |
-| `/e` | Eljohnzc | Lossless |
-| `/f` | Instable | Lossless |
+|  Prefix  | Provider                            | Quality               |
+| :------: | :---------------------------------- | :-------------------- |
+| _(root)_ | **Multi** — races all six providers | FLAC / best available |
+|   `/a`   | Qobuz-DL                            | Lossless              |
+|   `/b`   | LastBabe                            | Lossless              |
+|   `/c`   | Monochrome                          | FLAC                  |
+|   `/d`   | Deezer                              | High / Low            |
+|   `/e`   | Eljohnzc                            | Lossless              |
+|   `/f`   | Instable                            | Lossless              |
 
 Every prefix exposes the same three endpoints: `/manifest.json`, `/search`, and `/stream/:id`.
 
@@ -141,7 +141,7 @@ This server stores nothing. When a user searches or presses play, the addon fetc
 
 ### Open source
 
-The full source code is available on [GitHub](https://github.com/iad1tya/lossless-extension) under the **GPL-3.0** license. You are free to inspect, fork, and self-host it under those terms.
+The full source code is available on [GitHub](https://github.com/EchoMusicApp/lossless-extension) under the **GPL-3.0** license. You are free to inspect, fork, and self-host it under those terms.
 
 ### Your responsibility as the host
 
