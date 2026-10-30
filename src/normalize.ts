@@ -60,6 +60,15 @@ export function streamResponse(
 ): QobuzStream {
   if (!/^https:\/\//i.test(stream.url) || stream.encrypted === true)
     throw new Error("stream is not an openable HTTPS rendition");
+  try {
+    const host = new URL(stream.url).hostname.toLowerCase();
+    if (host.endsWith("arcod.xyz") || host.endsWith("deplexo.com")) {
+      throw new Error("stream upstream host is unavailable");
+    }
+  } catch (e) {
+    if (e instanceof Error && e.message.includes("unavailable")) throw e;
+    throw new Error("invalid stream URL");
+  }
   if (stream.manifest && !["none", "hls", "dash"].includes(stream.manifest))
     throw new Error("unsupported manifest type");
   return {

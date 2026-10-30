@@ -10,7 +10,7 @@ export function createProvider(config) {
     if (config.provider === 'qobuzdl')
         return new QobuzDlProvider(config);
     if (config.provider === 'multi') {
-        return createRacingProvider(new QobuzDlProvider(config), new LastBabeProvider(config), new MonochromeProvider(config), new RemoteAddonProvider(config), new RemoteAddonProvider(config, config.eljohnzcBaseUrl), new InstableProvider(config));
+        return createRacingProvider(new QobuzDlProvider(config), new LastBabeProvider(config), new MonochromeProvider(config));
     }
     if (config.provider === 'http')
         return new HttpQobuzProvider(config);
