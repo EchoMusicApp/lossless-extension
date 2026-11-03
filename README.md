@@ -110,6 +110,10 @@ curl -i "http://localhost:3000/stream/<track_id>?quality=LOSSLESS"
 - **Availability:** This project is maintained on a best-effort community basis. Upstream provider endpoints may change or go offline without notice; fixes are developed to restore streaming as quickly as possible.
 - **Disclaimer:** This is an independent, community-driven project not affiliated with, endorsed by, or sponsored by Qobuz, Deezer, JioSaavn, or any upstream service providers.
 
+## Credits
+
+All source files and provider implementations provided by [Silly Kat](https://github.com/KATx-dev).
+
 ## License
 
 Licensed under the [GNU General Public License v3.0](LICENSE).
