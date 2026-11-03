@@ -2,72 +2,49 @@
   <img src="assets/banner.png" alt="Echo Music · Lossless Extension" width="100%">
 </p>
 
-A self-hosted lossless music addon for Echo Music — powered by six upstream providers, deployed in one click.
+<p align="center">
+  A self-hosted lossless audio addon for Echo Music, powered by multi-provider streaming.
+</p>
 
----
+## Overview
 
-## Getting Started
+Lossless Extension resolves lossless audio streams across multiple upstream providers in parallel, serving whichever responds first. It integrates directly into Echo Music to deliver FLAC and high-fidelity audio with automatic quality fallback.
 
-### Requirements
+## Quick Setup
 
-- A [Vercel account](https://vercel.com/signup) _(free tier works)_
-- A [GitHub account](https://github.com/signup)
+### 1. Deploy to Vercel
 
----
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/EchoMusicApp/lossless-extension&project-name=lossless-extension&repository-name=lossless-extension&env=QOBUZ_ID_SECRET&envDescription=A%20long%20random%20secret%20used%20to%20sign%20track%20IDs.%20Generate%20one%20with%20openssl%20rand%20-hex%2032&envLink=https://github.com/EchoMusicApp/lossless-extension%23configuration)
 
-## Step 1 — Deploy to Vercel
+Configure the required environment variable during deployment:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/EchoMusicApp/lossless-extension&project-name=lossless-extension&repository-name=lossless-extension&env=QOBUZ_ID_SECRET&envDescription=A%20long%20random%20secret%20used%20to%20sign%20track%20IDs.%20Generate%20one%20with%20openssl%20rand%20-hex%2032&envLink=https://github.com/EchoMusicApp/lossless-extension%23provider-configuration)
+| Variable | Required | Description |
+| :--- | :---: | :--- |
+| `QOBUZ_ID_SECRET` | Yes | 32-byte secret used to sign track IDs. Generate via `openssl rand -hex 32`. |
 
-1. Click the **Deploy with Vercel** button above.
-2. Sign in to Vercel and connect your GitHub account when prompted.
-3. Vercel will fork this repository into your account automatically.
-4. Set the required environment variable when asked:
+All other provider settings include preconfigured defaults.
 
-   | Variable          | Required | Description                                                                            |
-   | :---------------- | :------: | :------------------------------------------------------------------------------------- |
-   | `QOBUZ_ID_SECRET` |    ✅    | A long random secret used to sign track IDs. Generate one with `openssl rand -hex 32`. |
+### 2. Copy Deployment URL
 
-   > All other variables are optional — defaults are built in. See [Provider Configuration](#provider-configuration) for the full list.
+From your Vercel project dashboard, copy the production deployment URL (e.g. `https://lossless-extension.vercel.app`). Do not append `/search` or `/stream` paths.
 
-5. Click **Deploy** and wait for the build to finish.
-
----
-
-## Step 2 — Get Your Server URL
-
-1. Open your project in the [Vercel Dashboard](https://vercel.com/dashboard).
-2. Copy the production URL from the **Deployments** tab. It will look like:
-
-   ```
-   https://lossless-extension.vercel.app
-   ```
-
-> **Note:** Always use the root URL. Do not append `/search`, `/stream`, or anything else.
-
----
-
-## Step 3 — Add to Echo Music
+### 3. Connect to Echo Music
 
 1. Open **Echo Music**.
 2. Go to **Settings → Sources → Add an Addon**.
-3. Enter a name (e.g. `Lossless`) and paste your Vercel URL as the **Server URL**.
+3. Set an addon name (e.g. `Lossless`) and paste your deployment URL into **Server URL**.
 4. Save and enable the addon.
 
-That's it — search for any track and enjoy audio at up to **lossless FLAC quality**. Tracks without a lossless stream automatically fall back to the best available quality.
+## Configuration
 
----
-
-## Provider Configuration
-
-The addon runs six upstream backends in parallel and uses whichever responds first. Only `QOBUZ_ID_SECRET` is required; everything else has a working default.
+Custom upstream URLs and provider modes can be customized using environment variables:
 
 ```dotenv
 # Required
-QOBUZ_ID_SECRET=           # generate with: openssl rand -hex 32
+QOBUZ_ID_SECRET=                   # generate with: openssl rand -hex 32
 
-# Optional — defaults shown
-QOBUZ_PROVIDER=multi       # multi | qobuzdl | http | stub
+# Optional (defaults shown)
+QOBUZ_PROVIDER=multi               # multi | qobuzdl | http | stub
 QOBUZ_UPSTREAM_BASE_URL=https://qobuz-dll.foreyou.workers.dev
 LASTBABE_BASE_URL=https://lastbabe.velixir.run
 MONOCHROME_BASE_URL=https://tracks.monochrome.st
@@ -76,80 +53,60 @@ ELJOHNZC_BASE_URL=https://eljohnzc-addon.de.deplexo.com/4433c7caff7fd070309e
 INSTABLE_BASE_URL=https://instable.arcod.xyz
 ```
 
-### Available Providers
+### Provider Routing
 
-Each provider is also accessible via its own isolated route prefix — useful for testing a specific source directly.
+Providers can be queried collectively or routed individually using path prefixes:
 
-|  Prefix  | Provider                            | Quality               |
-| :------: | :---------------------------------- | :-------------------- |
-| _(root)_ | **Multi** — races all six providers | FLAC / best available |
-|   `/a`   | Qobuz-DL                            | Lossless              |
-|   `/b`   | LastBabe                            | Lossless              |
-|   `/c`   | Monochrome                          | FLAC                  |
-|   `/d`   | Deezer                              | High / Low            |
-|   `/e`   | Eljohnzc                            | Lossless              |
-|   `/f`   | Instable                            | Lossless              |
+| Route Prefix | Provider | Target Quality |
+| :---: | :--- | :--- |
+| `/` *(root)* | Multi (races all providers) | FLAC / Best Available |
+| `/a` | Qobuz-DL | Lossless |
+| `/b` | LastBabe | Lossless |
+| `/c` | Monochrome | FLAC |
+| `/d` | Deezer | High / Low |
+| `/e` | Eljohnzc | Lossless |
+| `/f` | Instable | Lossless |
 
-Every prefix exposes the same three endpoints: `/manifest.json`, `/search`, and `/stream/:id`.
-
----
+Each route exposes standard addon endpoints:
+- `GET /manifest.json`
+- `GET /search?q=<query>&quality=<quality>`
+- `GET /stream/:id`
 
 ## Local Development
 
-Node.js 20 or later is required.
-
-**Install and run:**
+Requires Node.js 20 or higher.
 
 ```bash
+# Install dependencies
 npm install
+
+# Start local dev server
 npm run dev
-```
 
-**Build and test:**
-
-```bash
-npm run build
+# Run test suite and build
 npm test
+npm run build
 ```
 
-**Try the API locally:**
+Example requests:
 
 ```bash
-# Manifest
+# Addon manifest
 curl http://localhost:3000/manifest.json
 
 # Search
-curl 'http://localhost:3000/search?q=kind+of+blue&quality=LOSSLESS&atmos=auto'
+curl "http://localhost:3000/search?q=kind+of+blue&quality=LOSSLESS"
 
-# Stream info
-curl -i 'http://localhost:3000/stream/qobuz_abc123?quality=LOSSLESS&atmos=auto'
+# Stream metadata
+curl -i "http://localhost:3000/stream/<track_id>?quality=LOSSLESS"
 ```
 
----
+## Legal & Disclaimer
+
+- **No Media Stored:** This server operates strictly as a real-time metadata resolver and stream redirector. No audio files or streams are cached, downloaded, or stored on this server.
+- **Host Responsibility:** Users deploying and hosting this software are solely responsible for compliance with applicable local laws, regulations, and third-party terms of service.
+- **Disclaimer:** This is an independent, community-driven project not affiliated with, endorsed by, or sponsored by Qobuz, Deezer, JioSaavn, or any upstream service providers.
 
 ## License
 
-Licensed under [GPL-3.0](LICENSE). This is an unofficial extension; upstream provider usage limits apply.
-
----
-
-## Legal & Responsible Use
-
-### No music is stored
-
-This server stores nothing. When a user searches or presses play, the addon fetches a publicly accessible stream URL from a third-party upstream provider in real time and passes it directly to the client. No audio files are cached, downloaded, or redistributed by this software.
-
-### Open source
-
-The full source code is available on [GitHub](https://github.com/EchoMusicApp/lossless-extension) under the **GPL-3.0** license. You are free to inspect, fork, and self-host it under those terms.
-
-### Your responsibility as the host
-
-> [!CAUTION]
-> By deploying and hosting this server, **you** — not the software author — are solely responsible for ensuring its use complies with all applicable laws, regulations, and third-party terms of service in your jurisdiction. This includes but is not limited to copyright law and the terms of service of any upstream music providers whose APIs this addon may interact with.
->
-> The author of this software accepts **no liability** for any misuse, copyright infringement, or other unlawful conduct arising from your deployment.
-
-### Disclaimer
-
-This is an unofficial, community-built addon. It is not affiliated with, endorsed by, or connected to Qobuz, Deezer, JioSaavn, or any other music service. All trademarks and service marks belong to their respective owners. Upstream provider availability may change at any time without notice.
+Licensed under the [GNU General Public License v3.0](LICENSE).
