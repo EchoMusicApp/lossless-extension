@@ -10,6 +10,8 @@
 
 Lossless Extension resolves lossless audio streams across multiple upstream providers in parallel, serving whichever responds first. It integrates directly into Echo Music to deliver FLAC and high-fidelity audio with automatic quality fallback.
 
+> **Note:** This addon is community-maintained and relies on third-party upstream providers. As a result, streams may stop working at any time without notice, though active efforts will always be made to restore functionality.
+
 ## Quick Setup
 
 ### 1. Deploy to Vercel
@@ -105,6 +107,7 @@ curl -i "http://localhost:3000/stream/<track_id>?quality=LOSSLESS"
 
 - **No Media Stored:** This server operates strictly as a real-time metadata resolver and stream redirector. No audio files or streams are cached, downloaded, or stored on this server.
 - **Host Responsibility:** Users deploying and hosting this software are solely responsible for compliance with applicable local laws, regulations, and third-party terms of service.
+- **Availability:** This project is maintained on a best-effort community basis. Upstream provider endpoints may change or go offline without notice; fixes are developed to restore streaming as quickly as possible.
 - **Disclaimer:** This is an independent, community-driven project not affiliated with, endorsed by, or sponsored by Qobuz, Deezer, JioSaavn, or any upstream service providers.
 
 ## License
