@@ -28,7 +28,7 @@ All other provider settings include preconfigured defaults.
 
 ### 2. Copy Deployment URL
 
-From your Vercel project dashboard, copy the production deployment URL (e.g. `https://lossless-extension.vercel.app`). Do not append `/search` or `/stream` paths.
+From your Vercel project dashboard, copy the production deployment URL (e.g. `https://lossless-extension-xxxx.vercel.app`). Do not append `/search` or `/stream` paths.
 
 ### 3. Connect to Echo Music
 
